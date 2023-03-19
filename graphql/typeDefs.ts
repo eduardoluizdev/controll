@@ -5,6 +5,10 @@ export const typeDefs = gql`
     customers: [Customer]
   }
 
+  type Mutation {
+    createCustomer(name: String!, email: String!): Customer
+  }
+
   type Customer {
     id: ID
     name: String
