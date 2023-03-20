@@ -24,12 +24,18 @@ export type Customer = {
 export type Mutation = {
   __typename?: 'Mutation';
   createCustomer?: Maybe<Customer>;
+  deleteCustomer?: Maybe<Customer>;
 };
 
 
 export type MutationCreateCustomerArgs = {
   email: Scalars['String'];
   name: Scalars['String'];
+};
+
+
+export type MutationDeleteCustomerArgs = {
+  id: Scalars['ID'];
 };
 
 export type Query = {
@@ -134,6 +140,7 @@ export type CustomerResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createCustomer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType, RequireFields<MutationCreateCustomerArgs, 'email' | 'name'>>;
+  deleteCustomer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType, RequireFields<MutationDeleteCustomerArgs, 'id'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

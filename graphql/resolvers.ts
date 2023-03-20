@@ -8,6 +8,10 @@ export const resolvers: Resolvers = {
     createCustomer: async (_parent, args, ctx) => {
       const { name, email } = args
       return await ctx.prisma.customer.create({ data: { name, email } })
+    },
+    deleteCustomer: async (_parent, args, ctx) => {
+      const { id } = args
+      return await ctx.prisma.customer.delete({ where: { id } })
     }
   }
 }

@@ -10,8 +10,10 @@ interface HomeProps {
 }
 
 export default function Home({ customers }: HomeProps) {
+  const [customersState, setCustomersState] = useState<Customer[]>(customers)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -30,18 +32,35 @@ export default function Home({ customers }: HomeProps) {
 
     setName('')
     setEmail('')
-    customers.push(data.createCustomer)
+    setCustomersState([...customersState, data.createCustomer])
   }
+
+  async function handleDelete(id: string) {
+    const { data } = await GqlClient.mutate({
+      mutation: gql`
+        mutation {
+          deleteCustomer(id: "${id}"){
+            id
+          }
+        }
+      `
+    })
+
+    setCustomersState(customersState.filter((customer) => customer.id !== data.deleteCustomer.id))
+  }
+
   return (
     <>
       <Head>
         <title>Controll APP</title>
       </Head>
       <main>
-        {customers.map((customer) => (
-          <div key={customer.id}>
+        {customersState.map((customer, index) => (
+          <div key={index}>
             <h1>{customer.name}</h1>
+            <p>{customer.id}</p>
             <p>{customer.email}</p>
+            <button onClick={() => handleDelete(customer.id)}>delete</button>
           </div>
         ))}
         <hr />
